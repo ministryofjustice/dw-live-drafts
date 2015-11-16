@@ -40,6 +40,7 @@ if (!class_exists('liveDrafts')) {
 
       // Save post action
 			add_action('save_post', array($this, 'postUpdate'), 10);
+			add_action('publish_future_post', array($this, 'postUpdate'), 10);
 
 		}
 
@@ -126,7 +127,7 @@ if (!class_exists('liveDrafts')) {
 		}
 
 		function postUpdate($id) {
-			if (isset($_REQUEST['publish'])) {
+			if ((isset($_REQUEST['publish']) && $_REQUEST['publish']!='Schedule') || (defined( 'DOING_CRON' ) && DOING_CRON)) {
 
 				// Check for post meta that identifies this as a 'live draft'
 				$_pc_liveId = get_post_meta($id, '_pc_liveId', true);
@@ -187,7 +188,7 @@ if (!class_exists('liveDrafts')) {
 	}
 
 	// Create an object from the class when the admin_init action fires
-	add_action ('admin_init', create_function('', 'global $liveDrafts; $liveDrafts = new liveDrafts();'));
+	add_action ('init', create_function('', 'global $liveDrafts; $liveDrafts = new liveDrafts();'));
 
 }
 
