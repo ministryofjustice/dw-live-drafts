@@ -22,6 +22,6 @@
     "composer/installers": "~1.2.0"
   },
   "extra" : {
-    "installer-name": "ddw-live-drafts"
+    "installer-name": "dw-live-drafts"
   }
 }
